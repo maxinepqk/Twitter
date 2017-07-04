@@ -23,18 +23,34 @@ class TweetCell: UITableViewCell {
         didSet {
             nameLabel.text = tweet.user.name
             tweetTextLabel.text = tweet.text
-            screenNameLabel.text = tweet.user.screenName
+            screenNameLabel.text = "@"+tweet.user.screenName
             profileView.af_setImage(withURL: tweet.user.profilePicURL)
-            dateLabel.text = tweet.createdAtString
+            dateLabel.text = "• "+tweet.createdAtString
             retweetCount.text = String(tweet.retweetCount)
-            favoriteCount.text = String(describing: tweet.favoriteCount)
+            favoriteCount.text = String(tweet.favoriteCount)
             
         }
+    }
+    
+    @IBAction func onRetweet(_ sender: Any) {
+        tweet.retweeted = true
+        tweet.retweetCount += 1
+    }
+    
+    @IBAction func onLike(_ sender: Any) {
+        print("favorited!")
     }
     
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        
+        profileView.layer.borderWidth = 1
+        profileView.layer.masksToBounds = false
+        profileView.layer.borderColor = UIColor.white.cgColor
+        profileView.layer.cornerRadius = profileView.frame.height/2
+        profileView.clipsToBounds = true
+        
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
