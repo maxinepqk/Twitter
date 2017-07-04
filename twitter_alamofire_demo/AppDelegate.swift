@@ -17,13 +17,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let homeTimelineViewController = storyboard.instantiateViewController(withIdentifier: "TweetsNavigationController")
+        let tabBarController = storyboard.instantiateViewController(withIdentifier: "tabBarController")
         let loginViewController = storyboard.instantiateViewController(withIdentifier: "LoginViewController")
         if (User.current == nil){
             window?.rootViewController = loginViewController
         }
         else {
-            window?.rootViewController = homeTimelineViewController
+            window?.rootViewController = tabBarController
         }
         
         NotificationCenter.default.addObserver(forName: Notification.Name("didLogout"), object: nil, queue: OperationQueue.main) { (Notification) in
