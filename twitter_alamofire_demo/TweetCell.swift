@@ -18,6 +18,9 @@ class TweetCell: UITableViewCell {
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var retweetCount: UILabel!
     @IBOutlet weak var favoriteCount: UILabel!
+    @IBOutlet weak var retweetButton: UIButton!
+    @IBOutlet weak var likeButton: UIButton!
+    
     
     var tweet: Tweet! {
         didSet {
@@ -30,15 +33,6 @@ class TweetCell: UITableViewCell {
             favoriteCount.text = String(tweet.favoriteCount)
             
         }
-    }
-    
-    @IBAction func onRetweet(_ sender: Any) {
-        tweet.retweeted = true
-        tweet.retweetCount += 1
-    }
-    
-    @IBAction func onLike(_ sender: Any) {
-        print("favorited!")
     }
     
     override func awakeFromNib() {

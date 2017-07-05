@@ -7,21 +7,30 @@
 //
 
 import UIKit
+import RSKPlaceholderTextView
 
-class CreateViewController: UIViewController {
+protocol ComposeViewControllerDelegate {
+    func did(post: Tweet)
+}
+
+class CreateViewController: UIViewController //ComposeViewControllerDelegate
+{
+    
+    //weak var delegate: ComposeViewControllerDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Do any additional setup after loading the view.
     }
+    
     
     
     @IBAction func onCancel(_ sender: Any) {
         self.dismiss(animated: true)
     }
 
-    @IBAction func onShare(_ sender: Any) {
+    @IBAction func didTapPost(_ sender: Any) {
         
     }
     

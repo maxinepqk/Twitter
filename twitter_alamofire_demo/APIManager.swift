@@ -51,9 +51,7 @@ class APIManager: SessionManager {
     
     func logout() {
         clearCredentials()
-        
         // TODO: Clear current user by setting it to nil
-
         NotificationCenter.default.post(name: NSNotification.Name("didLogout"), object: nil)
     }
     
@@ -116,18 +114,82 @@ class APIManager: SessionManager {
         }
     }
     
-    func retweet(completion: @escaping (Tweet?, Error?) -> ()) {
-        
+    // MARK: Favorite
+    func favorite(_ tweet: Tweet, completion: @escaping (Tweet?, Error?) -> ()) {
+        let urlString = "https://api.twitter.com/1.1/favorites/create.json"
+        let parameters = ["id": tweet.id]
+        request(urlString, method: .post, parameters: parameters, encoding: URLEncoding.queryString).responseJSON { (response) in
+            if response.result.isSuccess,
+                let tweetDictionary = response.result.value as? [String: Any] {
+                let tweet = Tweet(dictionary: tweetDictionary)
+                completion(tweet, nil)
+            } else {
+                completion(nil, response.result.error)
+            }
+        }
     }
     
-    // MARK: TODO: Un-Favorite a Tweet
+    // MARK: Un-Favorite a Tweet
+    func unfavorite(_ tweet: Tweet, completion: @escaping (Tweet?, Error?) -> ()) {
+        let urlString = "https://api.twitter.com/1.1/favorites/destroy.json"
+        let parameters = ["id": tweet.id]
+        request(urlString, method: .post, parameters: parameters, encoding: URLEncoding.queryString).responseJSON { (response) in
+            if response.result.isSuccess,
+                let tweetDictionary = response.result.value as? [String: Any] {
+                let tweet = Tweet(dictionary: tweetDictionary)
+                completion(tweet, nil)
+            } else {
+                completion(nil, response.result.error)
+            }
+        }
+    }
     
-    // MARK: TODO: Retweet
+
+    // MARK: Retweet
+    func retweet(_ tweet: Tweet, completion: @escaping (Tweet?, Error?) -> ()) {
+        let urlString = "https://api.twitter.com/1.1/statuses/retweet/:id.json"
+        let parameters = ["id": tweet.id]
+        request(urlString, method: .post, parameters: parameters, encoding: URLEncoding.queryString).responseJSON { (response) in
+            if response.result.isSuccess,
+                let tweetDictionary = response.result.value as? [String: Any] {
+                let tweet = Tweet(dictionary: tweetDictionary)
+                completion(tweet, nil)
+            } else {
+                completion(nil, response.result.error)
+            }
+        }
+    }
     
-    // MARK: TODO: Un-Retweet
+    // MARK: Un-Retweet
+    func unretweet(_ tweet: Tweet, completion: @escaping (Tweet?, Error?) -> ()) {
+        let urlString = "https://api.twitter.com/1.1/statuses/unretweet/:id.json"
+        let parameters = ["id": tweet.id]
+        request(urlString, method: .post, parameters: parameters, encoding: URLEncoding.queryString).responseJSON { (response) in
+            if response.result.isSuccess,
+                let tweetDictionary = response.result.value as? [String: Any] {
+                let tweet = Tweet(dictionary: tweetDictionary)
+                completion(tweet, nil)
+            } else {
+                completion(nil, response.result.error)
+            }
+        }
+    }
     
     // MARK: TODO: Compose Tweet
-    
+    func composeTweet(with text: String, completion: @escaping (Tweet?, Error?) -> ()) {
+        let urlString = "https://api.twitter.com/1.1/statuses/update.json"
+        let parameters = ["status": text]
+        request(urlString, method: .post, parameters: parameters, encoding: JSONEncoding.default).validate().responseJSON { (response) in
+            if response.result.isSuccess,
+                let tweetDictionary = response.result.value as? [String: Any] {
+                let tweet = Tweet(dictionary: tweetDictionary)
+                completion(tweet, nil)
+            } else {
+                completion(nil, response.result.error)
+            }
+        }
+    }
+
     // MARK: TODO: Get User Timeline
     
     

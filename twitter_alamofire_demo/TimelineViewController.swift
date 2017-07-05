@@ -43,11 +43,72 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
     
     func refreshControlAction(_ refreshControl: UIRefreshControl) {
         refresh()
-        tableView.reloadData()
         refreshControl.endRefreshing()
     }
-
-
+    
+    
+    @IBAction func onLike(_ sender: Any) {
+        let cellRow = (sender as! UIButton).tag
+        let tweet = tweets[cellRow]
+        if tweet.favorited! {
+            tweet.favorited = false
+            tweet.favoriteCount -= 1
+            (sender as! UIButton).isSelected = false
+            APIManager.shared.unfavorite(tweet) { (tweet: Tweet?, error: Error?) in
+                if let  error = error {
+                    print("Error unfavoriting tweet: \(error.localizedDescription)")
+                } else if let tweet = tweet {
+                    print("Successfully unfavorited the following Tweet: \n\(tweet.text)")
+                    self.refresh()
+                }
+            }
+        }
+        else {
+            tweet.favorited = true
+            tweet.favoriteCount += 1
+            (sender as! UIButton).isSelected = true
+            APIManager.shared.favorite(tweet) { (tweet: Tweet?, error: Error?) in
+                if let  error = error {
+                    print("Error favoriting tweet: \(error.localizedDescription)")
+                } else if let tweet = tweet {
+                    print("Successfully favorited the following Tweet: \n\(tweet.text)")
+                    self.refresh()
+                }
+            }
+        }
+    }
+    
+    @IBAction func onRetweet(_ sender: Any) {
+        let cellRow = (sender as! UIButton).tag
+        let tweet = tweets[cellRow]
+        if tweet.retweeted {
+            tweet.retweeted = false
+            tweet.retweetCount -= 1
+            (sender as! UIButton).isSelected = false
+            APIManager.shared.unretweet(tweet) { (tweet: Tweet?, error: Error?) in
+                if let  error = error {
+                    print("Error unretweeting tweet: \(error.localizedDescription)")
+                } else if let tweet = tweet {
+                    print("Successfully unretweeted the following Tweet: \n\(tweet.text)")
+                    self.refresh()
+                }
+            }
+        }
+        else {
+            tweet.retweeted = true
+            tweet.retweetCount += 1
+            (sender as! UIButton).isSelected = true
+            APIManager.shared.retweet(tweet) { (tweet: Tweet?, error: Error?) in
+                if let  error = error {
+                    print("Error retweeting tweet: \(error.localizedDescription)")
+                } else if let tweet = tweet {
+                    print("Successfully retweeted the following Tweet: \n\(tweet.text)")
+                    self.refresh()
+                }
+            }
+        }
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return tweets.count
     }
@@ -56,6 +117,8 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
         let cell = tableView.dequeueReusableCell(withIdentifier: "TweetCell", for: indexPath) as! TweetCell
         
         cell.tweet = tweets[indexPath.row]
+        cell.retweetButton.tag = indexPath.row
+        cell.likeButton.tag = indexPath.row
         
         return cell
     }

@@ -128,7 +128,7 @@
                                                     <state key="normal" image="retweet-icon"/>
                                                     <state key="selected" image="retweet-icon-green"/>
                                                     <connections>
-                                                        <action selector="onRetweet:" destination="U1g-kw-izy" eventType="touchUpInside" id="zD0-RL-uKW"/>
+                                                        <action selector="onRetweet:" destination="5YO-Vh-39k" eventType="touchUpInside" id="JHh-PL-ZGx"/>
                                                     </connections>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Rb-vP-g0Y" userLabel="Like Button">
@@ -136,7 +136,7 @@
                                                     <state key="normal" image="favor-icon"/>
                                                     <state key="selected" image="favor-icon-red"/>
                                                     <connections>
-                                                        <action selector="onLike:" destination="U1g-kw-izy" eventType="touchUpInside" id="1RJ-ae-4Mc"/>
+                                                        <action selector="onLike:" destination="5YO-Vh-39k" eventType="touchUpInside" id="K2r-MS-9k4"/>
                                                     </connections>
                                                 </button>
                                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="reply-icon" translatesAutoresizingMaskIntoConstraints="NO" id="12a-3U-tct">
@@ -173,8 +173,10 @@
                                         <connections>
                                             <outlet property="dateLabel" destination="ERW-tr-GYM" id="g3k-zY-qCq"/>
                                             <outlet property="favoriteCount" destination="27X-hy-GXN" id="mDT-qY-F2z"/>
+                                            <outlet property="likeButton" destination="9Rb-vP-g0Y" id="5Vz-os-6Jk"/>
                                             <outlet property="nameLabel" destination="EMT-ph-bqi" id="vZs-5A-u8O"/>
                                             <outlet property="profileView" destination="QRV-oR-AXu" id="Vxb-wi-8t9"/>
+                                            <outlet property="retweetButton" destination="O5K-yL-slQ" id="FwT-fB-BkZ"/>
                                             <outlet property="retweetCount" destination="gh3-9q-923" id="rGB-e3-3ja"/>
                                             <outlet property="screenNameLabel" destination="O77-Y4-QDf" id="0w9-Un-ULC"/>
                                             <outlet property="tweetTextLabel" destination="9Fr-Ca-3XI" id="R9F-Zi-hBa"/>
@@ -217,8 +219,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="What's happening?" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="sgg-ZO-kPS">
-                                <rect key="frame" x="16" y="72" width="343" height="128"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="What's happening?" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="sgg-ZO-kPS" customClass="RSKPlaceholderTextView">
+                                <rect key="frame" x="16" y="72" width="343" height="164"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -245,11 +247,11 @@
             </objects>
             <point key="canvasLocation" x="2597.5999999999999" y="779.46026986506752"/>
         </scene>
-        <!--Item-->
+        <!--Navigation Controller-->
         <scene sceneID="WXZ-z8-8LI">
             <objects>
                 <navigationController storyboardIdentifier="TweetsNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="RFK-Vv-pWW" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" image="home-icon" id="i8m-Mm-GLY"/>
+                    <tabBarItem key="tabBarItem" title="" image="home-icon" id="i8m-Mm-GLY"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="COb-xK-t9O">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
@@ -270,6 +272,7 @@
                 <tabBarController storyboardIdentifier="tabBarController" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="lk0-nD-Hqn" sceneMemberID="viewController">
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="EMc-MT-h3U">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </tabBar>
