@@ -10,7 +10,7 @@ import UIKit
 
 class DetailsViewController: UIViewController {
     
-    var tweet: Tweet?
+    var tweet: Tweet!
     
     @IBOutlet weak var profileView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
@@ -39,15 +39,74 @@ class DetailsViewController: UIViewController {
             else {
                 likeButton.isSelected = false
             }
-            if tweet.retweeted {
+            if tweet.retweeted! {
                 retweetButton.isSelected = true
             }
+                
             else {
                 retweetButton.isSelected = false
             }
         }
 
         // Do any additional setup after loading the view.
+    }
+    
+    @IBAction func onLike(_ sender: Any) {
+        if (tweet.favorited!) {
+            tweet.favorited = false
+            tweet.favoriteCount -= 1
+            (sender as! UIButton).isSelected = false
+            APIManager.shared.unfavorite(tweet!) { (tweet: Tweet?, error: Error?) in
+                if let  error = error {
+                    print("Error unfavoriting tweet: \(error.localizedDescription)")
+                } else if let tweet = tweet {
+                    print("Successfully unfavorited the following Tweet: \n\(tweet.text)")
+                    self.favoriteCount.text = String(Int(self.favoriteCount.text!)!-1)
+                }
+            }
+        }
+        else {
+            tweet.favorited = true
+            tweet.favoriteCount += 1
+            (sender as! UIButton).isSelected = true
+            APIManager.shared.favorite(tweet) { (tweet: Tweet?, error: Error?) in
+                if let  error = error {
+                    print("Error favoriting tweet: \(error.localizedDescription)")
+                } else if let tweet = tweet {
+                    print("Successfully favorited the following Tweet: \n\(tweet.text)")
+                    self.favoriteCount.text = String(Int(self.favoriteCount.text!)!+1)
+                }
+            }
+        }
+    }
+    
+    @IBAction func onRetweet(_ sender: Any) {
+        if tweet.retweeted! {
+            tweet.retweeted = false
+            tweet.retweetCount -= 1
+            (sender as! UIButton).isSelected = false
+            APIManager.shared.unretweet(tweet) { (tweet: Tweet?, error: Error?) in
+                if let  error = error {
+                    print("Error unretweeting tweet: \(error.localizedDescription)")
+                } else if let tweet = tweet {
+                    print("Successfully unretweeted the following Tweet: \n\(tweet.text)")
+                    self.retweetCount.text = String(Int(self.retweetCount.text!)!-1)
+                }
+            }
+        }
+        else {
+            tweet.retweeted = true
+            tweet.retweetCount += 1
+            (sender as! UIButton).isSelected = true
+            APIManager.shared.retweet(tweet) { (tweet: Tweet?, error: Error?) in
+                if let  error = error {
+                    print("Error retweeting tweet: \(error.localizedDescription)")
+                } else if let tweet = tweet {
+                    print("Successfully retweeted the following Tweet: \n\(tweet.text)")
+                    self.retweetCount.text = String(Int(self.retweetCount.text!)!+1)
+                }
+            }
+        }
     }
 
     override func didReceiveMemoryWarning() {

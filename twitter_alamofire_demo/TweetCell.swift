@@ -10,14 +10,12 @@ import UIKit
 import AlamofireImage
 
 protocol TweetCellDelegate: class {
-    func did(select: Tweet)
+    func tweetCell(_ tweetCell: TweetCell, didTap user: User)
 }
 
 class TweetCell: UITableViewCell {
     
     weak var delegate: TweetCellDelegate?
-    
-    let tapRec = UITapGestureRecognizer(target: self, action: #selector(tappedProfile(sender:)))
     
     @IBOutlet weak var tweetTextLabel: UITextView!
     @IBOutlet weak var nameLabel: UILabel!
@@ -45,25 +43,23 @@ class TweetCell: UITableViewCell {
             else {
                 likeButton.isSelected = false
             }
-            if tweet.retweeted {
+            if tweet.retweeted! {
                 retweetButton.isSelected = true
             }
             else {
                 retweetButton.isSelected = false
             }
-            profileView.isUserInteractionEnabled = true
-            profileView.addGestureRecognizer(tapRec)
+            
+            
         }
     }
     
-    func tappedProfile(sender: UITapGestureRecognizer) {
-        //let location = sender.location(in: view)
-        print("image tapped")
+    func didTapUserProfile(_ sender: UITapGestureRecognizer) {
+        delegate?.tweetCell(self, didTap: tweet.user)
     }
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        tapRec.addTarget(self, action: #selector(tappedProfile))
         
         // Initialization code
         profileView.layer.borderWidth = 1
@@ -71,6 +67,10 @@ class TweetCell: UITableViewCell {
         profileView.layer.borderColor = UIColor.white.cgColor
         profileView.layer.cornerRadius = profileView.frame.height/2
         profileView.clipsToBounds = true
+        
+        let profileTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTapUserProfile(_:)))
+        profileView.isUserInteractionEnabled = true
+        profileView.addGestureRecognizer(profileTapGestureRecognizer)
         
     }
     

@@ -30,8 +30,8 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
         refresh()
     }
     
-    func did(select: Tweet) {
-        performSegue(withIdentifier: "timelineToProfile", sender: nil)
+    func tweetCell(_ tweetCell: TweetCell, didTap user: User) {
+        performSegue(withIdentifier: "timelineToProfile", sender: user)
     }
     
     func did(post: Tweet) {
@@ -90,7 +90,7 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
     @IBAction func onRetweet(_ sender: Any) {
         let cellRow = (sender as! UIButton).tag
         let tweet = tweets[cellRow]
-        if tweet.retweeted {
+        if tweet.retweeted! {
             tweet.retweeted = false
             tweet.retweetCount -= 1
             (sender as! UIButton).isSelected = false
@@ -128,6 +128,7 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
         cell.tweet = tweets[indexPath.row]
         cell.retweetButton.tag = indexPath.row
         cell.likeButton.tag = indexPath.row
+        cell.delegate = self
         
         return cell
     }
@@ -151,8 +152,9 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
             }
         }
         else if segue.identifier == "timelineToProfile" {
-            let profileView = sender as! UIImageView
-            
+            let user = sender as! User
+            let profileViewController = segue.destination as! ProfileViewController
+            profileViewController.user = user
         }
     }
     

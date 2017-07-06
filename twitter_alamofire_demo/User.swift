@@ -14,12 +14,21 @@ class User {
     var name: String
     var screenName: String
     var profilePicURL: URL
+    //var coverPicURL: URL
+    var description: String
+    var followersCount: String
+    var followingCount: String
     
     init(dictionary: [String: Any]) {
         self.dictionary = dictionary
         name = dictionary["name"] as! String
         screenName = dictionary["screen_name"] as! String
         profilePicURL = URL(string: dictionary["profile_image_url_https"] as! String)!
+        //coverPicURL = URL(string: dictionary["profile_banner_url"] as! String)!
+        description = dictionary["description"] as! String
+        followingCount = String(dictionary["friends_count"] as! Int)
+        followersCount = String(dictionary["followers_count"] as! Int)
+        
     }
     
     private static var _current: User?

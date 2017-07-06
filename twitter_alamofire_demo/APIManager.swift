@@ -147,9 +147,9 @@ class APIManager: SessionManager {
 
     // MARK: Retweet
     func retweet(_ tweet: Tweet, completion: @escaping (Tweet?, Error?) -> ()) {
-        let urlString = "https://api.twitter.com/1.1/statuses/retweet/:id.json"
+        let urlString = "https://api.twitter.com/1.1/statuses/retweet.json"
         let parameters = ["id": tweet.id]
-        request(urlString, method: .post, parameters: parameters, encoding: URLEncoding.queryString).responseJSON { (response) in
+        request(urlString, method: .post, parameters: parameters, encoding: URLEncoding.queryString).validate().responseJSON { (response) in
             if response.result.isSuccess,
                 let tweetDictionary = response.result.value as? [String: Any] {
                 let tweet = Tweet(dictionary: tweetDictionary)
@@ -162,9 +162,9 @@ class APIManager: SessionManager {
     
     // MARK: Un-Retweet
     func unretweet(_ tweet: Tweet, completion: @escaping (Tweet?, Error?) -> ()) {
-        let urlString = "https://api.twitter.com/1.1/statuses/unretweet/:id.json"
+        let urlString = "https://api.twitter.com/1.1/statuses/unretweet.json"
         let parameters = ["id": tweet.id]
-        request(urlString, method: .post, parameters: parameters, encoding: URLEncoding.queryString).responseJSON { (response) in
+        request(urlString, method: .post, parameters: parameters, encoding: URLEncoding.queryString).validate().responseJSON { (response) in
             if response.result.isSuccess,
                 let tweetDictionary = response.result.value as? [String: Any] {
                 let tweet = Tweet(dictionary: tweetDictionary)
@@ -188,11 +188,45 @@ class APIManager: SessionManager {
         }
     }
 
-    // MARK: TODO: Get User Timeline
-    
-    
-    //--------------------------------------------------------------------------------//
-    
+    // MARK: Get User Timeline
+    func getUserTimeLine(_ user: User, completion: @escaping ([Tweet]?, Error?) -> ()) {
+        
+        // This uses tweets from disk to avoid hitting rate limit. Comment out if you want fresh
+        // tweets,
+//        if let data = UserDefaults.standard.object(forKey: "usertimeline_tweets") as? Data {
+//            let tweetDictionaries = NSKeyedUnarchiver.unarchiveObject(with: data) as! [[String: Any]]
+//            let tweets = tweetDictionaries.flatMap({ (dictionary) -> Tweet in
+//                Tweet(dictionary: dictionary)
+//            })
+//            
+//            completion(tweets, nil)
+//            return
+//        }
+        
+        let urlString = "https://api.twitter.com/1.1/statuses/user_timeline.json"
+        let parameters = ["screen_name": user.screenName]
+        request(urlString, method: .get, parameters: parameters, encoding: URLEncoding.queryString).validate().responseJSON { (response) in
+                guard response.result.isSuccess else {
+                    completion(nil, response.result.error)
+                    return
+                }
+                guard let tweetDictionaries = response.result.value as? [[String: Any]] else {
+                    print("Failed to parse tweets")
+                    let error = NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey : "Failed to parse tweets"])
+                    completion(nil, error)
+                    return
+                }
+                
+                let data = NSKeyedArchiver.archivedData(withRootObject: tweetDictionaries)
+                UserDefaults.standard.set(data, forKey: "usertimeline_tweets")
+                UserDefaults.standard.synchronize()
+                
+                let tweets = tweetDictionaries.flatMap({ (dictionary) -> Tweet in
+                    Tweet(dictionary: dictionary)
+                })
+                completion(tweets, nil)
+        }
+    }
     
     //MARK: OAuth
     static var shared: APIManager = APIManager()
