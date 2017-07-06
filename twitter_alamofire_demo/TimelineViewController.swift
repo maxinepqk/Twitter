@@ -8,10 +8,10 @@
 
 import UIKit
 
-class TimelineViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class TimelineViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CreateViewControllerDelegate, TweetCellDelegate {
     
     var tweets: [Tweet] = []
-    
+
     @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
@@ -29,6 +29,15 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
         
         refresh()
     }
+    
+    func did(select: Tweet) {
+        performSegue(withIdentifier: "timelineToProfile", sender: nil)
+    }
+    
+    func did(post: Tweet) {
+        refresh()
+    }
+    
     
     func refresh() {
         APIManager.shared.getHomeTimeLine { (tweets, error) in
@@ -125,6 +134,26 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "timelineToCreate"{
+            let navVC = segue.destination as! UINavigationController
+            let createViewController = navVC.childViewControllers[0] as! CreateViewController
+            createViewController.delegate = self
+        }
+        else if segue.identifier == "timelineToDetails" {
+            let cell = sender as! UITableViewCell
+            if let indexPath = tableView.indexPath(for: cell) {
+                let tweet = tweets[indexPath.row]
+                let detailsViewController = segue.destination as! DetailsViewController
+                detailsViewController.tweet = tweet
+            }
+        }
+        else if segue.identifier == "timelineToProfile" {
+            let profileView = sender as! UIImageView
+            
+        }
     }
     
     override func didReceiveMemoryWarning() {

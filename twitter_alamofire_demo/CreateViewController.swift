@@ -9,32 +9,39 @@
 import UIKit
 import RSKPlaceholderTextView
 
-protocol ComposeViewControllerDelegate {
+protocol CreateViewControllerDelegate: class {
     func did(post: Tweet)
 }
 
-class CreateViewController: UIViewController //ComposeViewControllerDelegate
+class CreateViewController: UIViewController
 {
-    
-    //weak var delegate: ComposeViewControllerDelegate?
+    weak var delegate: CreateViewControllerDelegate?
 
+    @IBOutlet weak var composeTextView: RSKPlaceholderTextView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
     }
     
-    
-    
     @IBAction func onCancel(_ sender: Any) {
         self.dismiss(animated: true)
     }
 
     @IBAction func didTapPost(_ sender: Any) {
-        
+        APIManager.shared.composeTweet(with: composeTextView.text) { (tweet, error) in
+            if let error = error {
+                print("Error composing Tweet: \(error.localizedDescription)")
+            } else if let tweet = tweet {
+                self.delegate?.did(post: tweet)
+                print("Compose Tweet Success!")
+                self.dismiss(animated: true, completion: nil)
+            }
+        }
     }
     
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

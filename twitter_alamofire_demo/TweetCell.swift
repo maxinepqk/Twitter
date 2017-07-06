@@ -9,7 +9,15 @@
 import UIKit
 import AlamofireImage
 
+protocol TweetCellDelegate: class {
+    func did(select: Tweet)
+}
+
 class TweetCell: UITableViewCell {
+    
+    weak var delegate: TweetCellDelegate?
+    
+    let tapRec = UITapGestureRecognizer(target: self, action: #selector(tappedProfile(sender:)))
     
     @IBOutlet weak var tweetTextLabel: UITextView!
     @IBOutlet weak var nameLabel: UILabel!
@@ -31,14 +39,33 @@ class TweetCell: UITableViewCell {
             dateLabel.text = "• "+tweet.createdAtString
             retweetCount.text = String(tweet.retweetCount)
             favoriteCount.text = String(tweet.favoriteCount)
-            
+            if tweet.favorited! {
+                likeButton.isSelected = true
+            }
+            else {
+                likeButton.isSelected = false
+            }
+            if tweet.retweeted {
+                retweetButton.isSelected = true
+            }
+            else {
+                retweetButton.isSelected = false
+            }
+            profileView.isUserInteractionEnabled = true
+            profileView.addGestureRecognizer(tapRec)
         }
+    }
+    
+    func tappedProfile(sender: UITapGestureRecognizer) {
+        //let location = sender.location(in: view)
+        print("image tapped")
     }
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        tapRec.addTarget(self, action: #selector(tappedProfile))
         
+        // Initialization code
         profileView.layer.borderWidth = 1
         profileView.layer.masksToBounds = false
         profileView.layer.borderColor = UIColor.white.cgColor
