@@ -27,6 +27,12 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        profilePicView.layer.borderWidth = 1
+        profilePicView.layer.masksToBounds = false
+        profilePicView.layer.borderColor = UIColor.white.cgColor
+        profilePicView.layer.cornerRadius = profilePicView.frame.height/2
+        profilePicView.clipsToBounds = true
+        
         if user == nil {
             user = User.current
         }
@@ -53,6 +59,9 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         tableView.dataSource = self
         tableView.delegate = self
+        
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 300
         
         refresh()
         
@@ -177,14 +186,5 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }
