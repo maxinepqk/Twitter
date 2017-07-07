@@ -30,7 +30,7 @@ class DetailsViewController: UIViewController {
             tweetTextLabel.text = tweet.text
             screenNameLabel.text = "@"+tweet.user.screenName
             profileView.af_setImage(withURL: tweet.user.profilePicURL)
-            dateLabel.text = tweet.createdAtString
+            dateLabel.text = tweet.createdAtStringLong
             retweetCount.text = String(tweet.retweetCount)
             favoriteCount.text = String(tweet.favoriteCount)
             if tweet.favorited! {
