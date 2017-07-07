@@ -202,7 +202,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="Ctl-bI-Eag" id="igH-cX-XMH"/>
-                        <segue destination="lKq-cQ-CZg" kind="show" identifier="timelineToProfile" id="v3s-U8-slg"/>
+                        <segue destination="lKq-cQ-CZg" kind="show" identifier="timelineToProfile" id="5sw-ZU-RdY"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZlF-i2-Ves" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -521,6 +521,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <navigationItem key="navigationItem" id="eSb-8d-zDY"/>
                     <connections>
                         <outlet property="bioLabel" destination="3Uf-vv-zk3" id="c4n-8w-cME"/>
                         <outlet property="coverPicView" destination="OxW-PN-EYU" id="5Nb-0c-Jkm"/>
@@ -535,7 +536,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QXf-EB-aGs" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3437.5999999999999" y="778.56071964017997"/>
+            <point key="canvasLocation" x="3438" y="779"/>
         </scene>
         <!--Create View Controller-->
         <scene sceneID="30o-Ew-skG">
@@ -611,6 +612,7 @@
                     </tabBar>
                     <connections>
                         <segue destination="RFK-Vv-pWW" kind="relationship" relationship="viewControllers" id="psh-uq-sod"/>
+                        <segue destination="npF-a3-lpm" kind="relationship" relationship="viewControllers" id="WpW-qJ-7aV"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bFW-Oq-toU" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -635,6 +637,25 @@
             </objects>
             <point key="canvasLocation" x="1799" y="779"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="Qiw-9N-vp3">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="npF-a3-lpm" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="" image="profile-Icon" id="lzp-ra-NRd"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="7OA-VL-7OK">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="lKq-cQ-CZg" kind="relationship" relationship="rootViewController" id="tIs-db-tMv"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="WVt-yg-dv2" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1799" y="1481"/>
+        </scene>
     </scenes>
     <resources>
         <image name="003-mail" width="24" height="24"/>
@@ -645,8 +666,12 @@
         <image name="favor-icon-red" width="30" height="30"/>
         <image name="home-icon" width="30" height="30"/>
         <image name="message-icon" width="30" height="30"/>
+        <image name="profile-Icon" width="26" height="26"/>
         <image name="reply-icon" width="30" height="30"/>
         <image name="retweet-icon" width="30" height="30"/>
         <image name="retweet-icon-green" width="30" height="30"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="tIs-db-tMv"/>
+    </inferredMetricsTieBreakers>
 </document>
