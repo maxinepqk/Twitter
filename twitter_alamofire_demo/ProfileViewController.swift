@@ -27,10 +27,13 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        if user == nil {
+            user = User.current
+        }
+        
         profilePicView.af_setImage(withURL: user.profilePicURL)
         if let url = user.coverPicURL {
             coverPicView.af_setImage(withURL: url)
-            print(user.coverPicURL)
         }
         nameLabel.text = user.name
         screenNameLabel.text = "@"+user.screenName
@@ -54,6 +57,10 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         refresh()
         
         // Do any additional setup after loading the view.
+    }
+    
+    func setCurrentUser(){
+        user = User.current
     }
     
     func refresh() {
