@@ -13,17 +13,27 @@ protocol CreateViewControllerDelegate: class {
     func did(post: Tweet)
 }
 
-class CreateViewController: UIViewController
+class CreateViewController: UIViewController, UITextViewDelegate
 {
     weak var delegate: CreateViewControllerDelegate?
+    let charMaxCount = 140
+    var count = 0
 
     @IBOutlet weak var composeTextView: RSKPlaceholderTextView!
+    @IBOutlet weak var charCount: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        composeTextView.delegate = self
         
         // Do any additional setup after loading the view.
     }
+    
+    func textViewDidChange(_ textView: UITextView) {
+        count = textView.text.characters.count
+        charCount.text = String(charMaxCount-count)
+    }
+
     
     @IBAction func onCancel(_ sender: Any) {
         self.dismiss(animated: true)

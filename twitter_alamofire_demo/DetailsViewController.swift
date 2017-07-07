@@ -7,15 +7,16 @@
 //
 
 import UIKit
+import TTTAttributedLabel
 
 class DetailsViewController: UIViewController {
     
     var tweet: Tweet!
     
+    @IBOutlet weak var tweetTextLabel: TTTAttributedLabel!
     @IBOutlet weak var profileView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var screenNameLabel: UILabel!
-    @IBOutlet weak var tweetTextLabel: UITextView!
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var favoriteCount: UILabel!
     @IBOutlet weak var retweetCount: UILabel!

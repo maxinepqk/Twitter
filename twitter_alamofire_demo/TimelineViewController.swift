@@ -7,10 +7,12 @@
 //
 
 import UIKit
+import TTTAttributedLabel
 
-class TimelineViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CreateViewControllerDelegate, TweetCellDelegate {
+class TimelineViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CreateViewControllerDelegate, TweetCellDelegate, TTTAttributedLabelDelegate, UIScrollViewDelegate {
     
     var tweets: [Tweet] = []
+    var isMoreDataLoading = false
 
     @IBOutlet weak var tableView: UITableView!
     
@@ -29,6 +31,40 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
         
         refresh()
     }
+    
+//    func loadMoreData() {
+//        
+//        // ... Create the NSURLRequest (myRequest) ...
+//        
+//        // Configure session so that completion handler is executed on main UI thread
+//        let session = URLSession(configuration: URLSessionConfiguration.default,
+//                                 delegate:nil,
+//                                 delegateQueue:OperationQueue.main
+//        )
+//        let task : URLSessionDataTask = session.dataTask(with: myRequest, completionHandler: { (data, response, error) in
+//            
+//            // Update flag
+//            self.isMoreDataLoading = false
+//            
+//            // ... Use the new data to update the data source ...
+//            
+//            // Reload the tableView now that there is new data
+//            self.myTableView.reloadData()
+//        })
+//        task.resume()
+//    }
+//    
+//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+//        if (!isMoreDataLoading) {
+//            let scrollViewContentHeight = tableView.contentSize.height
+//            let scrollOffsetThreshold = scrollViewContentHeight - tableView.bounds.size.height
+//            if(scrollView.contentOffset.y > scrollOffsetThreshold && tableView.isDragging) {
+//                isMoreDataLoading = true
+//                loadMoreData()
+//            }
+//        }
+//    }
+    
     
     func tweetCell(_ tweetCell: TweetCell, didTap user: User) {
         performSegue(withIdentifier: "timelineToProfile", sender: user)
@@ -129,6 +165,13 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
         cell.retweetButton.tag = indexPath.row
         cell.likeButton.tag = indexPath.row
         cell.delegate = self
+        
+        let linkColor = UIColor(red: 0.203, green: 0.329, blue: 0.835, alpha: 1)
+        let linkActiveColor = UIColor.black
+        cell.tweetTextLabel.delegate = self
+        cell.tweetTextLabel.linkAttributes = [kCTForegroundColorAttributeName as AnyHashable : linkColor]
+        cell.tweetTextLabel.activeLinkAttributes = [kCTForegroundColorAttributeName as AnyHashable : linkActiveColor]
+        cell.tweetTextLabel.enabledTextCheckingTypes = NSTextCheckingResult.CheckingType.link.rawValue
         
         return cell
     }

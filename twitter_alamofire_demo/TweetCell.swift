@@ -8,6 +8,7 @@
 
 import UIKit
 import AlamofireImage
+import TTTAttributedLabel
 
 protocol TweetCellDelegate: class {
     func tweetCell(_ tweetCell: TweetCell, didTap user: User)
@@ -16,8 +17,8 @@ protocol TweetCellDelegate: class {
 class TweetCell: UITableViewCell {
     
     weak var delegate: TweetCellDelegate?
-    
-    @IBOutlet weak var tweetTextLabel: UITextView!
+
+    @IBOutlet weak var tweetTextLabel: TTTAttributedLabel!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var profileView: UIImageView!
     @IBOutlet weak var screenNameLabel: UILabel!
@@ -30,13 +31,16 @@ class TweetCell: UITableViewCell {
     
     var tweet: Tweet! {
         didSet {
+            //Configures custom tweet cell
             nameLabel.text = tweet.user.name
-            tweetTextLabel.text = tweet.text
+            tweetTextLabel.setText(tweet.text)
             screenNameLabel.text = "@"+tweet.user.screenName
             profileView.af_setImage(withURL: tweet.user.profilePicURL)
             dateLabel.text = "• "+tweet.createdAtString
             retweetCount.text = String(tweet.retweetCount)
             favoriteCount.text = String(tweet.favoriteCount)
+            
+            // Check if already favorited or retweeted
             if tweet.favorited! {
                 likeButton.isSelected = true
             }
@@ -58,16 +62,18 @@ class TweetCell: UITableViewCell {
         delegate?.tweetCell(self, didTap: tweet.user)
     }
     
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        // Initialization code
+        // Styles profile picture icons
         profileView.layer.borderWidth = 1
         profileView.layer.masksToBounds = false
         profileView.layer.borderColor = UIColor.white.cgColor
         profileView.layer.cornerRadius = profileView.frame.height/2
         profileView.clipsToBounds = true
         
+        // Adds tap gesture recogniser to profile picture icons
         let profileTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTapUserProfile(_:)))
         profileView.isUserInteractionEnabled = true
         profileView.addGestureRecognizer(profileTapGestureRecognizer)
@@ -77,7 +83,6 @@ class TweetCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         
-        // Configure the view for the selected state
     }
     
 }
