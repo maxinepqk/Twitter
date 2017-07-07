@@ -19,6 +19,7 @@ class CreateViewController: UIViewController, UITextViewDelegate
     let charMaxCount = 140
     var count = 0
 
+    @IBOutlet weak var shareButton: UIBarButtonItem!
     @IBOutlet weak var composeTextView: RSKPlaceholderTextView!
     @IBOutlet weak var charCount: UILabel!
     
@@ -32,6 +33,18 @@ class CreateViewController: UIViewController, UITextViewDelegate
     func textViewDidChange(_ textView: UITextView) {
         count = textView.text.characters.count
         charCount.text = String(charMaxCount-count)
+        if count > 120 {
+            charCount.textColor = UIColor.red
+            if count > 140 {
+                shareButton.isEnabled = false
+            }
+            else {
+                shareButton.isEnabled = true
+            }
+        }
+        else {
+            charCount.textColor = UIColor(red:0.11, green:0.63, blue:0.95, alpha:1.0)
+        }
     }
 
     

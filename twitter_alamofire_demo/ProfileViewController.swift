@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import ActiveLabel
 
 class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
@@ -19,7 +20,7 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
     @IBOutlet weak var coverPicView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var screenNameLabel: UILabel!
-    @IBOutlet weak var bioLabel: UILabel!
+    @IBOutlet weak var bioLabel: ActiveLabel!
     @IBOutlet weak var followersCount: UILabel!
     @IBOutlet weak var followingCount: UILabel!
     @IBOutlet weak var editProfileButton: UIButton!
@@ -46,6 +47,14 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         bioLabel.text = user.description
         followersCount.text = user.followersCount
         followingCount.text = user.followingCount
+        
+        bioLabel.enabledTypes = [.mention, .hashtag, .url]
+        bioLabel.handleURLTap { (url) in
+            UIApplication.shared.openURL(url)
+        }
+        bioLabel.URLColor = UIColor(red:0.11, green:0.63, blue:0.95, alpha:1.0)
+        bioLabel.hashtagColor = UIColor(red:0.11, green:0.63, blue:0.95, alpha:1.0)
+        bioLabel.mentionColor = UIColor(red:0.11, green:0.63, blue:0.95, alpha:1.0)
         
         if let currentUser = currentUser {
             if user.screenName != currentUser.screenName {

@@ -7,13 +7,13 @@
 //
 
 import UIKit
-import TTTAttributedLabel
+import ActiveLabel
 
 class DetailsViewController: UIViewController {
     
     var tweet: Tweet!
     
-    @IBOutlet weak var tweetTextLabel: TTTAttributedLabel!
+    @IBOutlet weak var tweetTextLabel: ActiveLabel!
     @IBOutlet weak var profileView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var screenNameLabel: UILabel!
@@ -34,6 +34,7 @@ class DetailsViewController: UIViewController {
             dateLabel.text = tweet.createdAtStringLong
             retweetCount.text = String(tweet.retweetCount)
             favoriteCount.text = String(tweet.favoriteCount)
+            
             if tweet.favorited! {
                 likeButton.isSelected = true
             }
@@ -43,10 +44,24 @@ class DetailsViewController: UIViewController {
             if tweet.retweeted! {
                 retweetButton.isSelected = true
             }
-                
+
             else {
                 retweetButton.isSelected = false
             }
+            
+            tweetTextLabel.enabledTypes = [.mention, .hashtag, .url]
+            tweetTextLabel.handleURLTap { (url) in
+                UIApplication.shared.openURL(url)
+            }
+            tweetTextLabel.URLColor = UIColor(red:0.11, green:0.63, blue:0.95, alpha:1.0)
+            tweetTextLabel.hashtagColor = UIColor(red:0.11, green:0.63, blue:0.95, alpha:1.0)
+            tweetTextLabel.mentionColor = UIColor(red:0.11, green:0.63, blue:0.95, alpha:1.0)
+            
+            profileView.layer.borderWidth = 1
+            profileView.layer.masksToBounds = false
+            profileView.layer.borderColor = UIColor.white.cgColor
+            profileView.layer.cornerRadius = profileView.frame.height/2
+            profileView.clipsToBounds = true
         }
 
         // Do any additional setup after loading the view.

@@ -7,9 +7,9 @@
 //
 
 import UIKit
-import TTTAttributedLabel
+import ActiveLabel
 
-class TimelineViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CreateViewControllerDelegate, TweetCellDelegate, TTTAttributedLabelDelegate, UIScrollViewDelegate {
+class TimelineViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CreateViewControllerDelegate, TweetCellDelegate, UIScrollViewDelegate {
     
     var tweets: [Tweet] = []
     var isMoreDataLoading = false
@@ -166,12 +166,7 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
         cell.likeButton.tag = indexPath.row
         cell.delegate = self
         
-        let linkColor = UIColor(red: 0.203, green: 0.329, blue: 0.835, alpha: 1)
-        let linkActiveColor = UIColor.black
-        cell.tweetTextLabel.delegate = self
-        cell.tweetTextLabel.linkAttributes = [kCTForegroundColorAttributeName as AnyHashable : linkColor]
-        cell.tweetTextLabel.activeLinkAttributes = [kCTForegroundColorAttributeName as AnyHashable : linkActiveColor]
-        cell.tweetTextLabel.enabledTextCheckingTypes = NSTextCheckingResult.CheckingType.link.rawValue
+        
         
         return cell
     }

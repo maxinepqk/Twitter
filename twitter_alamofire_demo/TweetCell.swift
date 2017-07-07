@@ -8,7 +8,7 @@
 
 import UIKit
 import AlamofireImage
-import TTTAttributedLabel
+import ActiveLabel
 
 protocol TweetCellDelegate: class {
     func tweetCell(_ tweetCell: TweetCell, didTap user: User)
@@ -17,8 +17,8 @@ protocol TweetCellDelegate: class {
 class TweetCell: UITableViewCell {
     
     weak var delegate: TweetCellDelegate?
-
-    @IBOutlet weak var tweetTextLabel: TTTAttributedLabel!
+    
+    @IBOutlet weak var tweetTextLabel: ActiveLabel!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var profileView: UIImageView!
     @IBOutlet weak var screenNameLabel: UILabel!
@@ -33,12 +33,20 @@ class TweetCell: UITableViewCell {
         didSet {
             //Configures custom tweet cell
             nameLabel.text = tweet.user.name
-            tweetTextLabel.setText(tweet.text)
+            tweetTextLabel.text = tweet.text
             screenNameLabel.text = "@"+tweet.user.screenName
             profileView.af_setImage(withURL: tweet.user.profilePicURL)
             dateLabel.text = "• "+tweet.createdAtString
             retweetCount.text = String(tweet.retweetCount)
             favoriteCount.text = String(tweet.favoriteCount)
+            
+            tweetTextLabel.enabledTypes = [.mention, .hashtag, .url]
+            tweetTextLabel.handleURLTap { (url) in
+                UIApplication.shared.openURL(url)
+            }
+            tweetTextLabel.URLColor = UIColor(red:0.11, green:0.63, blue:0.95, alpha:1.0)
+            tweetTextLabel.hashtagColor = UIColor(red:0.11, green:0.63, blue:0.95, alpha:1.0)
+            tweetTextLabel.mentionColor = UIColor(red:0.11, green:0.63, blue:0.95, alpha:1.0)
             
             // Check if already favorited or retweeted
             if tweet.favorited! {
