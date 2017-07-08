@@ -459,6 +459,7 @@
                                                     <state key="selected" image="retweet-icon-green"/>
                                                     <connections>
                                                         <action selector="onRetweet:" destination="5YO-Vh-39k" eventType="touchUpInside" id="q1f-7y-RcI"/>
+                                                        <action selector="onRetweet:" destination="lKq-cQ-CZg" eventType="touchUpInside" id="zCy-0Z-BZk"/>
                                                     </connections>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6Ki-HK-3aT" userLabel="Like Button">
@@ -467,6 +468,7 @@
                                                     <state key="selected" image="favor-icon-red"/>
                                                     <connections>
                                                         <action selector="onLike:" destination="5YO-Vh-39k" eventType="touchUpInside" id="Gdy-f7-A3X"/>
+                                                        <action selector="onLike:" destination="lKq-cQ-CZg" eventType="touchUpInside" id="kak-aa-Hlz"/>
                                                     </connections>
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="255" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="pakalu papito" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qgZ-kD-4Pt">
@@ -544,7 +546,7 @@
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="just a human bean ~" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Uf-vv-zk3" customClass="ActiveLabel" customModule="ActiveLabel">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="just a human bean ~" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Uf-vv-zk3" customClass="ActiveLabel" customModule="ActiveLabel">
                                 <rect key="frame" x="16" y="316" width="343" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
